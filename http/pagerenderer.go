@@ -140,6 +140,14 @@ func (w *MirrorListRenderer) Write(ctx *Context, results *mirrors.Results) (stat
 
 	ctx.ResponseWriter().Header().Set("Content-Type", "text/html; charset=utf-8")
 
+	/*
+	// w.statsFileNow.Today = 1
+	w.statsFileNow.Month = 30
+	w.statsFileNow.Year = 365
+	w.statsFileNow.Total = 500
+	print(w.statsFileNow.Today)
+	*/
+
 	// Render the page into the buffer
 	err = ctx.Templates().mirrorlist.ExecuteTemplate(&buf, "base", results)
 	if err != nil {

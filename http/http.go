@@ -383,6 +383,12 @@ func (h *HTTP) mirrorHandler(w http.ResponseWriter, r *http.Request, ctx *Contex
 	var resultRenderer resultsRenderer
 
 	if ctx.IsMirrorlist() {
+		_, err := h.stats.getStatsFileNow(&r.URL.Path)
+		if err == nil || err == redis.ErrNil {
+			/*
+			results.DownloadInfo = true
+			*/
+		}
 		resultRenderer = &MirrorListRenderer{}
 	} else {
 		switch GetConfig().OutputMode {
@@ -430,6 +436,7 @@ func (h *HTTP) LoadTemplates(name string) (t *template.Template, err error) {
 		"hostname":  utils.Hostname,
 		"concaturl": utils.ConcatURL,
 		"dateutc":   utils.FormattedDateUTC,
+		"wraphost":  utils.WrapHost,
 	})
 	t, err = t.ParseFiles(
 		filepath.Clean(GetConfig().Templates+"/base.html"),

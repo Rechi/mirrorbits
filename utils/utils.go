@@ -5,6 +5,7 @@ package utils
 
 import (
 	"fmt"
+	"html/template"
 	"math"
 	"os"
 	"sort"
@@ -164,6 +165,19 @@ func ConcatURL(url, path string) string {
 // FormattedDateUTC returns the date formatted as RFC1123
 func FormattedDateUTC(t time.Time) string {
 	return t.UTC().Format(time.RFC1123)
+}
+
+func WrapHost(host string) template.HTML {
+	return template.HTML(strings.Replace(strings.Replace(host, "://", "://&#8203;", -1), ".", ".&#8203;", -1))
+}
+
+func WrapWord(word string, width uint, break string) string {
+	if width < 1 {
+		return word
+	}
+	for i := 0; i < len(word); i += width {
+		
+	}
 }
 
 // TimeKeyCoverage returns a slice of strings covering the date range
