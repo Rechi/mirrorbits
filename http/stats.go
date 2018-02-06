@@ -14,6 +14,7 @@ import (
 	"github.com/Rechi/mirrorbits/filesystem"
 	"github.com/Rechi/mirrorbits/mirrors"
 	"github.com/Rechi/mirrorbits/useragent"
+	"github.com/garyburd/redigo/redis"
 )
 
 /*
@@ -53,6 +54,14 @@ type countItem struct {
 	filepath string
 	size     int64
 	time     time.Time
+}
+
+// StatsFileNow is the structure containing the latest stats of a file
+type StatsFileNow struct {
+	Today int64
+	Month int64
+	Year  int64
+	Total int64
 }
 
 // NewStats returns an instance of the stats counter
@@ -242,4 +251,31 @@ func (s *Stats) pushStats() {
 
 	// Clear the map
 	s.mapStats = make(map[string]int64)
+}
+
+func (s *Stats) getStatsFileNow(filePath *string) (*StatsFileNow, error) {
+	rconn := s.r.Get()
+	defer rconn.Close()
+
+	fkey := fmt.Sprintf("STATS_FILE_%s", time.Now().Format("2006_01_02"))
+
+	rconn.Send("MULTI")
+
+	for i := 0; i < 4; i++ {
+		rconn.Send("HGET", fkey, filePath)
+		fkey = fkey[:strings.LastIndex(fkey, "_")]
+	}
+
+	res, err := redis.Values(rconn.Do("EXEC"))
+
+	if err != nil && err != redis.ErrNil {
+		return nil, err
+	}
+
+	statsFileNow := &StatsFileNow{}
+	statsFileNow.Today, _ = redis.Int64(res[0], err)
+	statsFileNow.Month, _ = redis.Int64(res[1], err)
+	statsFileNow.Year, _ = redis.Int64(res[2], err)
+	statsFileNow.Total, _ = redis.Int64(res[3], err)
+	return statsFileNow, nil
 }

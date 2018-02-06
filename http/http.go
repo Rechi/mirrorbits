@@ -444,14 +444,6 @@ func (h *HTTP) LoadTemplates(name string) (t *template.Template, err error) {
 	return t, err
 }
 
-// StatsFileNow is the structure containing the latest stats of a file
-type StatsFileNow struct {
-	Today int64
-	Month int64
-	Year  int64
-	Total int64
-}
-
 // StatsFilePeriod is the structure containing the stats for the given period
 type StatsFilePeriod struct {
 	Period    string
@@ -479,28 +471,11 @@ func (h *HTTP) fileStatsHandler(w http.ResponseWriter, r *http.Request, ctx *Con
 	}
 
 	if len(req) == 0 || req[0] == "" {
-		fkey := fmt.Sprintf("STATS_FILE_%s", time.Now().Format("2006_01_02"))
-
-		rconn.Send("MULTI")
-
-		for i := 0; i < 4; i++ {
-			rconn.Send("HGET", fkey, r.URL.Path)
-			fkey = fkey[:strings.LastIndex(fkey, "_")]
-		}
-
-		res, err := redis.Values(rconn.Do("EXEC"))
-
+		s, err := h.stats.getStatsFileNow(&r.URL.Path)
 		if err != nil && err != redis.ErrNil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		s := &StatsFileNow{}
-		s.Today, _ = redis.Int64(res[0], err)
-		s.Month, _ = redis.Int64(res[1], err)
-		s.Year, _ = redis.Int64(res[2], err)
-		s.Total, _ = redis.Int64(res[3], err)
-
 		output, err = json.MarshalIndent(s, "", "    ")
 	} else {
 		// Generate the redis key
