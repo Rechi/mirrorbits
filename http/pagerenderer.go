@@ -15,8 +15,8 @@ import (
 	"strconv"
 	"strings"
 
-	. "github.com/etix/mirrorbits/config"
-	"github.com/etix/mirrorbits/mirrors"
+	. "github.com/Rechi/mirrorbits/config"
+	"github.com/Rechi/mirrorbits/mirrors"
 )
 
 var (

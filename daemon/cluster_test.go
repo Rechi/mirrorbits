@@ -11,10 +11,10 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/etix/mirrorbits/config"
-	"github.com/etix/mirrorbits/database"
-	"github.com/etix/mirrorbits/mirrors"
-	. "github.com/etix/mirrorbits/testing"
+	. "github.com/Rechi/mirrorbits/config"
+	"github.com/Rechi/mirrorbits/database"
+	"github.com/Rechi/mirrorbits/mirrors"
+	. "github.com/Rechi/mirrorbits/testing"
 )
 
 func TestMain(m *testing.M) {

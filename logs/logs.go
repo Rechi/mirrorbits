@@ -15,16 +15,16 @@ import (
 	"sync"
 	"time"
 
-	. "github.com/etix/mirrorbits/config"
-	"github.com/etix/mirrorbits/core"
-	"github.com/etix/mirrorbits/mirrors"
+	. "github.com/Rechi/mirrorbits/config"
+	"github.com/Rechi/mirrorbits/core"
+	"github.com/Rechi/mirrorbits/mirrors"
 	"github.com/op/go-logging"
 )
 
 var (
 	log          = logging.MustGetLogger("main")
-	rlogger      RuntimeLogger
-	dlogger      DownloadsLogger
+	rlogger      runtimeLogger
+	dlogger      downloadsLogger
 	loglevel     logging.Level
 	nameToLevels = map[string]logging.Level{
 		"CRITICAL": logging.CRITICAL,

@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/etix/mirrorbits/core"
-	"github.com/etix/mirrorbits/network"
+	"github.com/Rechi/mirrorbits/core"
+	"github.com/Rechi/mirrorbits/network"
 )
 
 const (

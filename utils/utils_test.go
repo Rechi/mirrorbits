@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/etix/mirrorbits/core"
-	"github.com/etix/mirrorbits/network"
+	"github.com/Rechi/mirrorbits/core"
+	"github.com/Rechi/mirrorbits/network"
 )
 
 func TestNormalizeURL(t *testing.T) {

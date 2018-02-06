@@ -11,11 +11,11 @@ import (
 	"strconv"
 	"time"
 
-	. "github.com/etix/mirrorbits/config"
-	"github.com/etix/mirrorbits/database"
-	"github.com/etix/mirrorbits/filesystem"
-	"github.com/etix/mirrorbits/network"
-	"github.com/etix/mirrorbits/utils"
+	. "github.com/Rechi/mirrorbits/config"
+	"github.com/Rechi/mirrorbits/database"
+	"github.com/Rechi/mirrorbits/filesystem"
+	"github.com/Rechi/mirrorbits/network"
+	"github.com/Rechi/mirrorbits/utils"
 	"github.com/garyburd/redigo/redis"
 	"github.com/op/go-logging"
 )

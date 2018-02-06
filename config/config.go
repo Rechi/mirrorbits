@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/etix/mirrorbits/core"
+	"github.com/Rechi/mirrorbits/core"
 	"github.com/op/go-logging"
 	"gopkg.in/yaml.v2"
 )

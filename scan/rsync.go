@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/etix/mirrorbits/utils"
+	"github.com/Rechi/mirrorbits/utils"
 	"github.com/garyburd/redigo/redis"
 )
 

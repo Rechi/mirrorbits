@@ -4,7 +4,7 @@
 package testing
 
 import (
-	"github.com/etix/mirrorbits/database"
+	"github.com/Rechi/mirrorbits/database"
 	"github.com/garyburd/redigo/redis"
 	"github.com/rafaeljusto/redigomock"
 )

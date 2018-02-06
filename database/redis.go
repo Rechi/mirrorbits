@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	. "github.com/etix/mirrorbits/config"
-	"github.com/etix/mirrorbits/core"
+	. "github.com/Rechi/mirrorbits/config"
+	"github.com/Rechi/mirrorbits/core"
 	"github.com/garyburd/redigo/redis"
 )
 

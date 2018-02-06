@@ -5,7 +5,7 @@
 package useragent
 
 import (
-	. "github.com/wsnipex/mirrorbits/config"
+	. "github.com/Rechi/mirrorbits/config"
 	"github.com/op/go-logging"
 	"regexp"
 	"strings"
