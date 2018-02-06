@@ -64,6 +64,12 @@ type StatsFileNow struct {
 	Total int64
 }
 
+// StatsFilePeriod is the structure containing the stats for the given period
+type StatsFilePeriod struct {
+	Period    string
+	Downloads int64
+}
+
 // NewStats returns an instance of the stats counter
 func NewStats(redis *database.Redis) *Stats {
 	s := &Stats{
@@ -278,4 +284,22 @@ func (s *Stats) getStatsFileNow(filePath *string) (*StatsFileNow, error) {
 	statsFileNow.Year, _ = redis.Int64(res[2], err)
 	statsFileNow.Total, _ = redis.Int64(res[3], err)
 	return statsFileNow, nil
+}
+
+func (s *Stats) StatsFilePeriod(filePath *string, req []string) (*StatsFilePeriod, error) {
+	rconn := s.r.Get()
+	defer rconn.Close()
+
+	// Generate the redis key
+	dkey := "STATS_FILE"
+	for _, e := range req {
+		dkey += fmt.Sprintf("_%s", e)
+	}
+
+	v, err := redis.Int64(rconn.Do("HGET", dkey, filePath))
+	if err != nil && err != redis.ErrNil {
+		return nil, err
+	}
+
+	return &StatsFilePeriod{Period: strings.Join(req, "-"), Downloads: v}, nil
 }

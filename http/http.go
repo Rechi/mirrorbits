@@ -444,12 +444,6 @@ func (h *HTTP) LoadTemplates(name string) (t *template.Template, err error) {
 	return t, err
 }
 
-// StatsFilePeriod is the structure containing the stats for the given period
-type StatsFilePeriod struct {
-	Period    string
-	Downloads int64
-}
-
 // See stats.go header for the storage structure
 func (h *HTTP) fileStatsHandler(w http.ResponseWriter, r *http.Request, ctx *Context) {
 	var output []byte
@@ -478,20 +472,11 @@ func (h *HTTP) fileStatsHandler(w http.ResponseWriter, r *http.Request, ctx *Con
 		}
 		output, err = json.MarshalIndent(s, "", "    ")
 	} else {
-		// Generate the redis key
-		dkey := "STATS_FILE_"
-		for _, e := range req {
-			dkey += fmt.Sprintf("%s_", e)
-		}
-		dkey = dkey[:len(dkey)-1]
-
-		v, err := redis.Int64(rconn.Do("HGET", dkey, r.URL.Path))
+		s, err := h.stats.StatsFilePeriod(&r.URL.Path, req)
 		if err != nil && err != redis.ErrNil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		s := &StatsFilePeriod{Period: ctx.QueryParam("stats"), Downloads: v}
-
 		output, err = json.MarshalIndent(s, "", "    ")
 	}
 
